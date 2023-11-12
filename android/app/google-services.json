@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "87820298231",
+    "project_id": "appcamion-b044c",
+    "storage_bucket": "appcamion-b044c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87820298231:android:00c89c9c5787929ea970f2",
+        "android_client_info": {
+          "package_name": "com.example.appcamiones"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87820298231-ch48prk0nhbtegqaac9pstulhdkd2l7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKgqpWjq4prx0dQxn42nP9XndWleBQfGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87820298231-ch48prk0nhbtegqaac9pstulhdkd2l7v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "87820298231-9dkq4ob3cu81q46elh635m5jn458cpqj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appcamiones"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
