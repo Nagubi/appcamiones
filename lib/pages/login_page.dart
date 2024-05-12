@@ -1,14 +1,12 @@
 import 'package:appcamiones/components/square_tile.dart';
 import 'package:appcamiones/pages/forgot_password_page.dart';
 import 'package:appcamiones/pages/inicio_page.dart';
-//import 'package:appcamiones/pages/usuario_page.dart';
-//import 'package:appcamiones/services/auth_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:appcamiones/components/my_button.dart';
 import 'package:appcamiones/components/my_textfield.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-//import 'package:appcamiones/components/square_tile.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -23,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
    bool _obscureText = true;
   void route() {
     Navigator.pushReplacement(
@@ -79,24 +79,58 @@ class _LoginPageState extends State<LoginPage> {
       }
   }
    signInWithGoogle() async {
-     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+  final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
-    //obtener los detalles de autorizacion de la peticion
-    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+  //obtener los detalles de autorizacion de la peticion
+  final GoogleSignInAuthentication gAuth = await gUser!.authentication;
 
-    //crear nueva credencial para el usuario
-    final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth.accessToken,
-      idToken: gAuth.idToken,
-    );
+  //crear nueva credencial para el usuario
+  final credential = GoogleAuthProvider.credential(
+    accessToken: gAuth.accessToken,
+    idToken: gAuth.idToken,
+  );
 
-    //finalmente vamos a iniciar sesion
+  //finalmente vamos a iniciar sesion
+  try {
+    final authResult = await FirebaseAuth.instance.signInWithCredential(credential);
     
-     await FirebaseAuth.instance.signInWithCredential(credential).then((value) => route());
-    
+    // Check if the authentication was successful and user is not null
+    if (authResult != null && authResult.user != null) {
+      await _saveEmailToCollection(authResult.user!);
+      route(); // Assuming route() is your navigation function
+    } else {
+      print('Error signing in with Google: User not found');
+    }
+  } catch (e) {
+    print('Error signing in with Google: $e');
   }
+}
 
+  Future<void> _saveEmailToCollection(User user) async {
+     try {
+    // Access the current user's email
+    String? email = user.email;
 
+    // Check if the email already exists in the collection
+    final QuerySnapshot existingEmails = await _firestore
+        .collection('Perfil')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (existingEmails.docs.isEmpty) {
+      // Email doesn't exist, so add it to the collection
+      await _firestore.collection('Perfil').doc(email).set({
+        'email': email,
+      });
+
+      print('Email saved successfully: $email');
+    } else {
+      print('Email already exists: $email');
+    }
+  } catch (e) {
+    print('Error saving email: $e');
+  }
+  }
 
   //ErrorCorreoOcontrasena
   void showErrorMessage(String message) {

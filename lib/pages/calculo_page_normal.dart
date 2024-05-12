@@ -507,7 +507,7 @@ final user = FirebaseAuth.instance.currentUser!;
     'Tipo de Viaje': widget.tipoViaje,
     'Tipo de Operacion': widget.tipoOperacion,
     'Tipo de Unidad':"${widget.tipoUnidad} ${widget.tipoCaja}",
-    'Utilidad':((double.parse(_Utilidad.text)*100)-100).toStringAsFixed(0),
+    'Utilidad':_Utilidad.text,
     'Tarifa Dolares':tarifaDolaresVF,
     'Costo Dolares':costoDolaresVF,
     'Tarifa':tarifaVF,
