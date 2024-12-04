@@ -1,46 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-Widget visionViaje(Function ()? onTap, QueryDocumentSnapshot doc){
-  
+Widget visionViaje(Function()? onTap, QueryDocumentSnapshot doc) {
+  // Parse and format the date
+  String rawDate = doc['Fecha de Tarifa'];
+  DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(rawDate);
+  String formattedDate = DateFormat('dd MMMM yyyy').format(parsedDate);
+
   return InkWell(
     onTap: onTap,
-    child: Container(
-      padding: EdgeInsets.all(8.0),
-      margin: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(218, 194, 184, 184),
-        borderRadius: BorderRadius.circular(8.0),
+    child: Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Fecha de Tarifa:"+doc["Fecha de Tarifa"],
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24.0,
-              color: Colors.black,
+      elevation: 5,
+      margin: EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.calendar_today, color: Colors.black54),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Fecha de Tarifa: $formattedDate",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          Text(
-             "Origen:"+doc["Origen"],
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22.0,
-              color: Colors.black,
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.red),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Origen: ${doc['Origen']}",
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          Text(
-            "Destino:"+doc["Destino"],
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22.0,
-              color: Colors.black,
+            Row(
+              children: [
+                Icon(Icons.flag, color: Colors.green),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "Destino: ${doc['Destino']}",
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      )
+          ],
+        ),
+      ),
     ),
   );
 }

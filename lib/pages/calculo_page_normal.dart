@@ -107,6 +107,11 @@ final user = FirebaseAuth.instance.currentUser!;
               children: [
                 TextFormField(
                   controller: _Origen,
+                  inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r"[a-zA-Z ]"),
+                          )
+                        ],
                   decoration: const InputDecoration(
                     labelText: "Origen"
                   ),
@@ -119,6 +124,11 @@ final user = FirebaseAuth.instance.currentUser!;
                 ),
                 TextFormField(
                   controller: _Destino,
+                  inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r"[a-zA-Z ]"),
+                          )
+                        ],
                   decoration: const InputDecoration(
                     labelText: "Destino"
                   ),

@@ -160,6 +160,11 @@ class _ModalNuevoViajeState extends State<ModalNuevoViaje>{
                 ),
                 TextFormField(
                   controller: _Origen,
+                  inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r"[a-zA-Z ,. ]"),
+                          )
+                        ],
                   decoration: const InputDecoration(
                     labelText: "Origen"
                   ),
@@ -172,6 +177,11 @@ class _ModalNuevoViajeState extends State<ModalNuevoViaje>{
                 ),
                 TextFormField(
                   controller: _Destino,
+                  inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r"[a-zA-Z ,. ]"),
+                          )
+                        ],
                   decoration: const InputDecoration(
                     labelText: "Destino"
                   ),

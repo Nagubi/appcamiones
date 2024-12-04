@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
   Future<void> _saveEmailToCollection(User user) async {
-     try {
+  try {
     // Access the current user's email
     String? email = user.email;
 
@@ -118,8 +118,8 @@ class _LoginPageState extends State<LoginPage> {
         .get();
 
     if (existingEmails.docs.isEmpty) {
-      // Email doesn't exist, so add it to the collection
-      await _firestore.collection('Perfil').doc(email).set({
+      // Email doesn't exist, so add it to the collection with auto-generated document ID
+      await _firestore.collection('Perfil').add({
         'email': email,
       });
 
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
   } catch (e) {
     print('Error saving email: $e');
   }
-  }
+}
 
   //ErrorCorreoOcontrasena
   void showErrorMessage(String message) {
